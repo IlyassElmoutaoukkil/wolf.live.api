@@ -4,6 +4,7 @@ const SocketConnection = require('./SocketConnections/SocketConnection');
 const ClientEvents = require('./Enums/ClientEvents');
 const SecurityLogin = require('./Packets/SecurityLogin');
 const Devices = require('./Enums/Devices');
+const User = require('./Entities/User');
 
 /**
  * A Client to connect to WOLF
@@ -31,6 +32,8 @@ module.exports = class Client {
 
         // The Socket.IO Connection to the service
         this.Connection = new ClientConnection(this.ServerUrl, this.Token, this.Device);
+
+        this.CurrentUser = null;
 
         this.mapEvents(this.Connection);
     }
@@ -116,16 +119,34 @@ module.exports = class Client {
         return this;
     }
 
+    /**
+     * Login into Wolf with an Email and Password
+     * @param {string} email The email for the account to login with
+     * @param {string} password The password for the account to login with
+     */
     login(email, password) {
         const packet = new SecurityLogin(email, password, this.Device)
 
         packet.send(this)
             .then((data) => {
-                this.emit(ClientEvents.login_success, data);
+                this.loginSuccessful(data);
             })
             .catch((error) => {
                 this.emit(ClientEvents.login_failed, error);
             });
+    }
+
+    /**
+     * Internal void to save Current User and Gather Information
+     * @param {any} data 
+     */
+    loginSuccessful(data) {
+        try {
+            this.CurrentUser = new User(data.subscriber);
+            this.emit(ClientEvents.login_success, this.CurrentUser);
+        } catch(e) {
+            console.log(e)
+        }
     }
 
 }

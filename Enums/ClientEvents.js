@@ -17,5 +17,5 @@ module.exports = ClientEvents = {
     login_success: 'login_success',
     login_failed: 'login_failed',
     logout_success: 'logout_success',
-    logout_failed: 'logout_failed'
+    logout_failed: 'logout_failed',
 }
