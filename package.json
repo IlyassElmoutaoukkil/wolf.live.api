@@ -1,0 +1,27 @@
+{
+  "name": "wolf.live.api",
+  "version": "1.0.0",
+  "description": "Client Side Connections to Palringo Limited's Wolds Online Festival (WOLF) messaging platform.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kosterc/wolf.live.api.git"
+  },
+  "keywords": [
+    "WOLF",
+    "WOLF.LIVE",
+    "PALRINGO"
+  ],
+  "author": "Christopher Koster <christopher@kostertech.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kosterc/wolf.live.api/issues"
+  },
+  "homepage": "https://github.com/kosterc/wolf.live.api#readme",
+  "dependencies": {
+    "socket.io-client": "^2.3.0"
+  }
+}
