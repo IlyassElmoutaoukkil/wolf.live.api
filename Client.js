@@ -1,5 +1,8 @@
 const { EventEmitter } = require('events');
 
+/**
+ * A Client to connect to WOLF
+ */
 module.exports = class Client {
 
     /**
@@ -18,11 +21,34 @@ module.exports = class Client {
      * @param {string} event The string of the event to watch for
      * @param {(...data: any[]) => void} callback The callback to be executed when the event is raised
      * @param {boolean} internal If set to true, it will add it to the internal EventEmitter
+     * @returns {Client} Returns the client object for easier looping
      */
     on(event, callback, internal = true) {
-        if (internal)
+        if (internal) 
             this.Events.on(event, callback);
         return this;
+    }
+
+    /**
+     * Add an event listener to the internal EventEmitter or the Socket.IO Client EventEmitter, to be executed only once
+     * @param {string} event The string of the event to watch for
+     * @param {(...data: any[]) => void} callback The callback to be executed when the event is raised
+     * @param {boolean} internal Returns the client object for easier looping
+     * @returns {Client} Returns the client object for easier looping
+     */
+    once(event, callback, internal = true) {
+        if (internal)
+            this.Events.once(event, callback);
+        return this;
+    }
+
+    /**
+     * 
+     * @param {string} event Emits all events associated to the string from the Internal EventEmitter
+     * @param  {...any[]} data Passes the data along to the callbacks
+     */
+    emit(event, ...data) {
+        this.Events.emit(event, ...data);
     }
 
 }
