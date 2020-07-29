@@ -2,6 +2,8 @@ const { EventEmitter } = require('events');
 const ClientConnection = require('./SocketConnections/ClientConnection');
 const SocketConnection = require('./SocketConnections/SocketConnection');
 const ClientEvents = require('./Enums/ClientEvents');
+const SecurityLogin = require('./Packets/SecurityLogin');
+const Devices = require('./Enums/Devices');
 
 /**
  * A Client to connect to WOLF
@@ -14,7 +16,7 @@ module.exports = class Client {
      * @param {string} token 
      * @param {string} device 
      */
-    constructor(serverUrl = 'https://v3-rc.palringo.com', token = '', device) {
+    constructor(serverUrl = 'https://v3-rc.palringo.com', token = '', device = Devices.Web) {
 
         this.ServerUrl = serverUrl;
 
@@ -112,6 +114,18 @@ module.exports = class Client {
     connect() {
         this.Connection.Socket.open();
         return this;
+    }
+
+    login(email, password) {
+        const packet = new SecurityLogin(email, password, this.Device)
+
+        packet.send(this)
+            .then((data) => {
+                this.emit(ClientEvents.login_success, data);
+            })
+            .catch((error) => {
+                this.emit(ClientEvents.login_failed, error);
+            });
     }
 
 }

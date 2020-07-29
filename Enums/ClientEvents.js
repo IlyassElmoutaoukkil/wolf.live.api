@@ -10,5 +10,12 @@ module.exports = ClientEvents = {
     reconnect_error: 'reconnect_error',
     reconnect_failed: 'reconnect_failed',
     ping: 'ping',
-    pong: 'pong'
+    pong: 'pong',
+    packet_sending: 'packet_sending',
+    packet_timeout: 'packet_timeout',
+    packet_failed: 'packet_failed',
+    login_success: 'login_success',
+    login_failed: 'login_failed',
+    logout_success: 'logout_success',
+    logout_failed: 'logout_failed'
 }
