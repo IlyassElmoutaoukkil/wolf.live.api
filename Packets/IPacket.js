@@ -53,9 +53,9 @@ module.exports = class IPacket {
                 clearTimeout(timeout);
                 client.Connection.Socket.off('disconnect', disconnectHandler);
             });
+        } else {
+            client.Connection.Socket.emit(this.Command, this.formatPacket());
         }
-
-        client.Connection.Socket.emit(this.Command, this.formatPacket());
     }
 
     send(client) {

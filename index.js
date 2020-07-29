@@ -1,11 +1,25 @@
-const Client = require('./Client');
+// Entities
+const User = require('./Entities/User');
+
+// Enums
+const ClientEvents = require('./Enums/ClientEvents');
+const Devices = require('./Enums/Devices');
+
+// Socket Connections
 const SocketConnection = require('./SocketConnections/SocketConnection');
 const ClientConnection = require('./SocketConnections/ClientConnection');
-const ClientEvents = require('./Enums/ClientEvents');
+
+// Root
+const Client = require('./Client');
 
 module.exports = {
-    Client,
+    User,
+
+    ClientEvents,
+    Devices,
+
     SocketConnection,
     ClientConnection,
-    ClientEvents
+
+    Client
 }

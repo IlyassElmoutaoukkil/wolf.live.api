@@ -18,4 +18,8 @@ module.exports = ClientEvents = {
     login_failed: 'login_failed',
     logout_success: 'logout_success',
     logout_failed: 'logout_failed',
+    message_group_subscribe_success: 'message_group_subscribe_success',
+    message_group_subscribe_failed: 'message_group_subscribe_failed',
+    message_private_subscribe_success: 'message_private_subscribe_success',
+    message_private_subscribe_failed: 'message_private_subscribe_failed'
 }

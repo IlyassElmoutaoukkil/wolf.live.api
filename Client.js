@@ -3,6 +3,9 @@ const ClientConnection = require('./SocketConnections/ClientConnection');
 const SocketConnection = require('./SocketConnections/SocketConnection');
 const ClientEvents = require('./Enums/ClientEvents');
 const SecurityLogin = require('./Packets/SecurityLogin');
+const MessageGroupSubscribe = require('./Packets/MessageGroupSubscribe');
+const MessagePrivateSubscribe = require('./Packets/MessagePrivateSubscribe');
+const MessageSend = require('./Packets/MessageSend');
 const Devices = require('./Enums/Devices');
 const User = require('./Entities/User');
 
@@ -137,16 +140,42 @@ module.exports = class Client {
     }
 
     /**
-     * Internal void to save Current User and Gather Information
+     * Internal void to save Current User and Further setup bot, don't worry about calling this
      * @param {any} data 
      */
     loginSuccessful(data) {
-        try {
-            this.CurrentUser = new User(data.subscriber);
-            this.emit(ClientEvents.login_success, this.CurrentUser);
-        } catch(e) {
-            console.log(e)
-        }
+        this.CurrentUser = new User(data.subscriber);
+        this.emit(ClientEvents.login_success, this.CurrentUser);
+
+        var gsubPacket = new MessageGroupSubscribe();
+        var psubPacket = new MessagePrivateSubscribe();
+
+        gsubPacket.send(this)
+            .then(data => {
+                this.emit(ClientEvents.message_group_subscribe_success)
+            })
+            .catch(error => {
+                this.emit(ClientEvents.message_private_subscribe_failed, error);
+            });
+
+        psubPacket.send(this)
+            .then(data => {
+                this.emit(ClientEvents.message_private_subscribe_success);
+            }).catch(error => {
+                this.emit(ClientEvents.message_private_subscribe_failed, error);
+            });
+    }
+
+    sendMessage(recipient, message, isGroup) {
+        var mesg = new MessageSend(recipient, message, isGroup);
+
+        mesg.send(this)
+            .then(data => {
+                console.log('Message Sent', data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
 
 }
