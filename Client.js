@@ -22,6 +22,7 @@ module.exports = class Client {
     on(event, callback, internal = true) {
         if (internal)
             this.Events.on(event, callback);
+        return this;
     }
 
 }
