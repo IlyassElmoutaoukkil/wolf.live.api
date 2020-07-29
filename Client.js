@@ -164,6 +164,8 @@ module.exports = class Client {
             }).catch(error => {
                 this.emit(ClientEvents.message_private_subscribe_failed, error);
             });
+
+        this.on(ClientEvents.message_recieved, (data) => this.emit(ClientEvents.message_recieved, data), false);
     }
 
     sendMessage(recipient, message, isGroup) {

@@ -21,5 +21,6 @@ module.exports = ClientEvents = {
     message_group_subscribe_success: 'message_group_subscribe_success',
     message_group_subscribe_failed: 'message_group_subscribe_failed',
     message_private_subscribe_success: 'message_private_subscribe_success',
-    message_private_subscribe_failed: 'message_private_subscribe_failed'
+    message_private_subscribe_failed: 'message_private_subscribe_failed',
+    message_recieved: 'message send'
 }
